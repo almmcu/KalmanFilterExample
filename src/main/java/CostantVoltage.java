@@ -9,6 +9,7 @@ import org.apache.commons.math3.random.RandomGenerator;
 /**
  * Created by Oda114 on 9.2.2016.
  */
+// lineer voltaj deðerlerinin üzerine kalman filtresi uygulanmasý iþlemidir.
 public class CostantVoltage {
     public static void main(String[] args) {
         double constantVoltage = 10d;
