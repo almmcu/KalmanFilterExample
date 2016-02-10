@@ -9,7 +9,7 @@ import org.apache.commons.math3.random.RandomGenerator;
 /**
  * Created by Oda114 on 9.2.2016.
  */
-// lineer voltaj de�erlerinin �zerine kalman filtresi uygulanmas� i�lemidir.
+// lineer voltaj de�erlerinin �zerine kalman filtresi uygulanmas� i�lemidir.
 public class CostantVoltage {
     public static void main(String[] args) {
         double constantVoltage = 10d;
@@ -41,25 +41,33 @@ public class CostantVoltage {
 
         RandomGenerator rand = new JDKRandomGenerator();
 // iterate 60 steps
-        for (int i = 0; i < 60; i++) {
+        for (int i = 0; i < 10; i++) {
+            System.out.println(" X' in " + i + ". for başlangıcındaki değeri: "+ x);
             filter.predict();
 
             // simulate the process
             pNoise.setEntry(0, processNoise * rand.nextGaussian());
 
+            System.out.println("pnoise değeri: " + pNoise);
+            // Birinci denklem
+            System.out.println("Birinci Denklme Hesaplanması");
             // x = A * x + p_noise
             x = A.operate(x).add(pNoise);
-
+            System.out.println("Birinci denklem sonrası X in değeri:  " + x);
             // simulate the measurement
             mNoise.setEntry(0, measurementNoise * rand.nextGaussian());
 
+            System.out.println("İkinci denklem öncesi mNoise değeri: " + mNoise);
+            // ikinci denklem
             // z = H * x + m_noise
             RealVector z = H.operate(x).add(mNoise);
-
+            System.out.println("İkinci denklem sonrası z değeri: " + z);
             filter.correct(z);
 
 
             double voltage = filter.getStateEstimation()[0];
+            System.out.println("En son elde eddilen değer: " + voltage);
+            System.out.println(voltage);
         }
     }
 }

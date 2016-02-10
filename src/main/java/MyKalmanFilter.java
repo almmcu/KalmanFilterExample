@@ -3,7 +3,6 @@ import jkalman.JKalman;
 
 /**
  * Created by Oda114 on 8.2.2016.
- * Kendi kalman filteren
  */
 public class MyKalmanFilter {
     private int variables;

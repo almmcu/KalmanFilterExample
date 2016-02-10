@@ -10,7 +10,7 @@ import org.apache.commons.math3.random.RandomGenerator;
  * Created by Oda114 on 2.12.2015.
  */
 
-public class Queueu {
+public class IncreasingSpeedVehicleExample {
 
     public static void main(String[] args) {
         System.out.println("args = " + args);
@@ -56,24 +56,19 @@ public class Queueu {
 
         RealVector tmpPNoise = new ArrayRealVector(new double[] { Math.pow(dt, 2d) / 2d, dt });
         RealVector mNoise = new ArrayRealVector(1);
-double [] A1 = new double[60];
-double [] A2 = new double[60];
-double [] A3 = new double[60];
-double [] A4 = new double[60];
+
 // iterate 60 steps
         for (int i = 0; i < 60; i++) {
             filter.predict(u);
 
             // simulate the process
-            double guess1 = rand.nextGaussian();
-            RealVector pNoise = tmpPNoise.mapMultiply(accelNoise * guess1);
+            RealVector pNoise = tmpPNoise.mapMultiply(accelNoise * rand.nextGaussian());
 
             // x = A * x + B * u + pNoise
             x = A.operate(x).add(B.operate(u)).add(pNoise);
 
             // simulate the measurement
-            double guess2 = rand.nextGaussian();
-            mNoise.setEntry(0, measurementNoise * guess2);
+            mNoise.setEntry(0, measurementNoise * rand.nextGaussian());
 
             // z = H * x + m_noise
             RealVector z = H.operate(x).add(mNoise);
@@ -82,12 +77,6 @@ double [] A4 = new double[60];
 
             double position = filter.getStateEstimation()[0];
             double velocity = filter.getStateEstimation()[1];
-            System.out.println(position);
-            System.out.println(velocity);
-            A1[i] = guess1 ;
-            A2[i] = position;
-            A3[i] = guess2;
-            A4[i] = velocity;
         }
     }
 
